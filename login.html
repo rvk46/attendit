@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+<html>
+<head>
+  <title>Registeration: Attendee</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="login_style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+
+<body class="body">
+<style>
+  body {
+    font-family: Arial;
+    margin: 0;
+  }
+
+  /* Header/Logo Title */
+  .header {
+    padding: 5px;
+    text-align: center;
+    background: #778899;
+    color: white;
+    font-size: 10px;
+  }
+
+  /* Page Content */
+  .content {padding:20px;}
+  </style>
+  </head>
+  <body>
+
+  <div class="header">
+    <h1>Attendit : Attend</h1>
+
+  </div>
+
+
+
+<div class="login-page">
+  <div class="form">
+
+    <form>
+      <img src="C:\Users\ravikesh\Desktop\logo1.png"  background="transparent"  speed="1"  style="justify-content: center;" loop  autoplay></img>
+      <input type="text" placeholder="Attendee's Name"/>
+      <input type="text" placeholder="E-mail Id"/>
+      <input type="text" placeholder="Meeting Code"/>
+      <input type="password" placeholder="Roll Number/Registeration Number"/>
+
+
+      <div id="startButton"  class="button">
+        click to record
+      </div>
+
+      <video id="recording" width="160" height="120" muted autoplay></video>
+      <a id="downloadButton" class="button">
+      </a>
+
+
+      <br>
+      <button  onclick="myverify()">
+        Register
+      </button>
+
+
+
+      <button type="button" onclick="window.location.href='signup.html'">Register as Organizer</button>
+      <p class="message"></p>
+    </form>
+
+    <form class="login-form">
+
+    </form>
+
+            <video id="preview" width="0" height="0" autoplay muted></video>
+        </div>
+
+  </div>
+</div>
+
+
+                                            <script>
+
+
+                                            function myverify(){
+                                              alert("Registeration Done!")
+
+                                              }
+
+
+
+
+                                                  let preview = document.getElementById("preview");
+                                                  let recording = document.getElementById("recording");
+                                                  let startButton = document.getElementById("startButton");
+                                                  let stopButton = document.getElementById("stopButton");
+                                                  let downloadButton = document.getElementById("downloadButton");
+                                                  let logElement = document.getElementById("log");
+
+                                                  let recordingTimeMS = 2000;
+
+
+                                                  function log(msg) {
+                                                      //logElement.innerHTML += msg + "\n";
+                                                  }
+
+                                                  function wait(delayInMS) {
+                                                      return new Promise(resolve => setTimeout(resolve, delayInMS));
+                                                  }
+
+                                                  function startRecording(stream, lengthInMS) {
+                                                      let recorder = new MediaRecorder(stream);
+                                                      let data = [];
+
+                                                      recorder.ondataavailable = event => data.push(event.data);
+                                                      recorder.start();
+                                                      log(recorder.state + " for " + (lengthInMS/1000) + " seconds...");
+
+                                                      let stopped = new Promise((resolve, reject) => {
+                                                      recorder.onstop = resolve;
+                                                      recorder.onerror = event => reject(event.name);
+                                                      });
+
+                                                      let recorded = wait(lengthInMS).then(
+                                                      () => recorder.state == "recording" && recorder.stop()
+                                                      );
+
+                                                      return Promise.all([
+                                                          stopped,
+                                                          recorded
+                                                      ])
+                                                      .then(() => data);
+                                                  }
+
+                                                  function stop(stream) {
+                                                      stream.getTracks().forEach(track => track.stop());
+
+                                                  }
+
+                                                  startButton.addEventListener("click", function() {
+                                                      navigator.mediaDevices.getUserMedia({
+                                                          video: true,
+                                                          audio: false
+                                                      }).then(stream => {
+                                                              preview.srcObject = stream;
+                                                              downloadButton.href = stream;
+                                                              preview.captureStream = preview.captureStream || preview.mozCaptureStream;
+                                                              return new Promise(resolve => preview.onplaying = resolve);
+                                                            }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
+                                                            .then (recordedChunks => {
+                                                              let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+                                                              recording.src = URL.createObjectURL(recordedBlob);
+                                                              downloadButton.href = recording.src;
+                                                              downloadButton.download = "RecordedVideo.webm";
+                                                                  stop(preview.srcObject);
+                                                              log("Successfully recorded " + recordedBlob.size + " bytes of " +
+                                                                  recordedBlob.type + " media.");
+                                                            })
+                                                            .catch(log);
+                                                      }, false);
+
+
+                                                      stopButton.addEventListener("click", function() {
+                                                      stop(preview.srcObject);
+                                                      }, false);
+
+                                            </script>
+
+</body>
+</html>

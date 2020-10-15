@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+<html>
+<head>
+  <title>Registeration: Organizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="signup_style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+
+<body class="body" >
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+    }
+
+    /* Header/Logo Title */
+    .header {
+      padding: 5px;
+      text-align: center;
+      background: #778899;
+      color: white;
+      font-size: 10px;
+    }
+
+    /* Page Content */
+    .content {padding:20px;}
+
+    fieldset {
+          overflow: hidden
+        }
+
+        .some-class {
+          float: left;
+          clear: none;
+        }
+
+        label {
+          float: left;
+          clear: none;
+          display: block;
+          padding: 0px 2em 0px 8px;
+        }
+
+        input[type=radio],
+        input.radio {
+          float: left;
+          clear: none;
+          margin: 2px 0 0 2px;
+        }
+
+    </style>
+    </head>
+    <body>
+
+    <div class="header">
+      <h1>Attendit : Organizer</h1>
+
+    </div>
+
+
+
+<div class="login-page">
+  <div class="form" >
+    <form>
+      <img src="C:\Users\ravikesh\Desktop\logo1.png"  background="transparent"  speed="1"  style="justify-content: center;" loop  autoplay></img>
+      <input type="text" placeholder="Organizer's Name"/>
+      <input type="text" placeholder="Organization Name"/>
+      <input type="text" placeholder="E-mail"/>
+      <input type="text" placeholder="password"/>
+      <input type="date" placeholder="Event date"/>
+
+
+        <fieldset>
+
+          <label>Eventapp: </label><br>
+
+          <label for="meet"><input type="radio" id="meet" name="Eventapp" value="Meet" >Google Meet</input></label>
+          <label for="zoom"><input type="radio" id="zoom" name="Eventapp" value="zoom">Zoom</input></label>
+        </fieldset>
+        <br>
+
+      <label for="device">Device:</label><br>
+                <select name="devices" id="device">
+          <option value="Phone">Mobile Phone</option>
+          <option value="PC">PC</option>
+
+        </select><br><br>
+
+      <label for="guests">Guests Expected:</label><br>
+      <input type="number" id ="guests"/>
+
+
+
+
+
+      <button  onclick="myverify()">
+        Register
+      </button>
+    </form>
+
+    <form class="login-form">
+      <button type="button" onclick="window.location.href='login.html'">Register as Attendee</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function myverify(){
+  alert("Registeration Done!")
+
+}
+</script>
+
+
+
+
+</body>
+</html>
